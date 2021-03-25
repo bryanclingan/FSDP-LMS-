@@ -1,0 +1,38 @@
+﻿@model LMS.DATA.EF.Lesson
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="page-header">
+    <div class="container-fluid">
+        <h2 class="h5 no-margin-bottom">@Html.DisplayFor(model => model.LessonTitle)</h2>
+        <h3 class="h6 no-margin-bottom">@Html.DisplayFor(model => model.Introduction)</h3>
+    </div>
+</div>
+<div>
+
+    <dl class="dl-horizontal">
+        
+
+        
+
+        
+
+        <dd>
+            @Html.DisplayFor(model => model.VideoURL)
+        </dd>
+
+        
+
+        <dd>
+            @Html.DisplayFor(model => model.PdfFileName)
+        </dd>
+
+        
+
+        
+    </dl>
+</div>
+
