@@ -12,27 +12,16 @@
     </div>
 </div>
 <div>
+    @if (Model.VideoURL != null)
+    {
+        <iframe id="VideoWindow" src=@Model.VideoURL title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width:900px;height:508px;text-align:center;width:100%" allowfullscreen></iframe>
+    }
 
-    <dl class="dl-horizontal">
-        
+    @if (Model.PdfFileName != null)
+    {
+        <embed src="~/Content/img/@Model.PdfFileName" style="width: 100%; height: 80em; margin-top: 5em;" scrolling="auto" />
 
-        
+    }
 
-        
-
-        <dd>
-            @Html.DisplayFor(model => model.VideoURL)
-        </dd>
-
-        
-
-        <dd>
-            @Html.DisplayFor(model => model.PdfFileName)
-        </dd>
-
-        
-
-        
-    </dl>
 </div>
 

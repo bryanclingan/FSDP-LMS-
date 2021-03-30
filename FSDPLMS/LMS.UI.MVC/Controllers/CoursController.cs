@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.DATA.EF;
 
+
 namespace LMS.UI.MVC.Controllers
 {
     public class CoursController : Controller
@@ -32,6 +33,8 @@ namespace LMS.UI.MVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            
             return View(cours);
         }
 

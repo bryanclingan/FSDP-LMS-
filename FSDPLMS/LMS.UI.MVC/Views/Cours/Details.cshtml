@@ -1,9 +1,13 @@
 ﻿@model LMS.DATA.EF.Cours
 @using LMS.DATA.EF;
+@using Microsoft.AspNet.Identity
 @{
     FSDPLMSEntities db = new FSDPLMSEntities();
     ViewBag.Title = "Details";
-    var lessons = db.Lessons.Where(x=>x.CourseID == Model.CourseID);
+    string currentUserID = User.Identity.GetUserId();
+    var lessons = db.Lessons.Where(x => x.CourseID == Model.CourseID);
+
+
 }
 
 
@@ -15,33 +19,41 @@
 </div>
 <div>
     <section class="no-padding-bottom">
-        
-            
-        
+
+
+
 
         @foreach (var item in lessons)
         {
-        <div class="public-user-block block">
-            <div class="row d-flex align-items-center">
-                <div class="col-lg-4 d-flex align-items-center">
+            LessonView lessonView = db.LessonViews.Where(x => x.UserID == currentUserID && x.LessonID == item.LessonId).FirstOrDefault();
 
-                    <a href="#" class="name"><strong class="d-block">@item.LessonTitle</strong><span class="d-block"> @item.Introduction</span></a>
-                </div>
-                <div class="col-lg-4 text-center">
+            <div class="public-user-block block">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-4 d-flex align-items-center">
 
-                </div>
-                <div class="col-lg-4">
-                    <div class="details d-flex">
-                        <a href="@Url.Action("Details","Lessons",new { id = item.LessonId })">Take Lesson</a>
+                        <a href="#" class="name"><strong class="d-block">@item.LessonTitle</strong><span class="d-block"> @item.Introduction</span></a>
+                    </div>
+                    <div class="col-lg-4 text-center">
+
+                        @if (lessonView != null)
+                        {
+                            <text>Date Completed:</text>
+                            @lessonView.DateViewed.ToShortDateString()
+                        }
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="details d-flex">
+                            <a href="@Url.Action("Details","Lessons",new { id = item.LessonId })">Take Lesson</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         }
 
 
-        </section>
+    </section>
 
 
 
