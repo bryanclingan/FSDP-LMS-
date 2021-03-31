@@ -25,7 +25,7 @@
 
         @foreach (var item in lessons)
         {
-            LessonView lessonView = db.LessonViews.Where(x => x.UserID == currentUserID && x.LessonID == item.LessonId).FirstOrDefault();
+            LessonView lessonView = db.LessonViews.Where(x => x.UserID == currentUserID && x.LessonID == item.LessonId &&x.UserID==currentUserID).FirstOrDefault();
 
             <div class="public-user-block block">
                 <div class="row d-flex align-items-center">

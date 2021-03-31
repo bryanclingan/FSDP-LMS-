@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using LMS.DATA.EF;
 using Microsoft.AspNet.Identity;
 
+
 namespace LMS.UI.MVC.Controllers
 {
     public class LessonsController : Controller
@@ -17,6 +18,8 @@ namespace LMS.UI.MVC.Controllers
         private FSDPLMSEntities db = new FSDPLMSEntities();
 
         // GET: Lessons
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Index()
         {
             var lessons = db.Lessons.Include(l => l.Cours);
@@ -24,6 +27,10 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Details/5
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Employee")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -92,6 +99,8 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Create
+        [Authorize(Roles = "Admin")]        
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Create()
         {
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName");
@@ -103,6 +112,8 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Create([Bind(Include = "LessonId,LessonTitle,CourseID,Introduction,VideoURL,PdfFileName,IsActive")] Lesson lesson,HttpPostedFileBase pdfFile)
         {
 
@@ -148,6 +159,8 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Edit/5
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -168,6 +181,8 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Edit([Bind(Include = "LessonId,LessonTitle,CourseID,Introduction,VideoURL,PdfFileName,IsActive")] Lesson lesson,HttpPostedFileBase pdfFile)
         {
             if (ModelState.IsValid)
@@ -213,6 +228,8 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Delete/5
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -230,6 +247,8 @@ namespace LMS.UI.MVC.Controllers
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "HRAdmin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Lesson lesson = db.Lessons.Find(id);
