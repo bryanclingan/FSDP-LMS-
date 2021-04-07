@@ -15,9 +15,7 @@ namespace LMS.UI.MVC.Controllers
         private FSDPLMSEntities db = new FSDPLMSEntities();
 
         // GET: CourseCompletions
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Manager")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, Manager, HRAdmin")]
         public ActionResult Index()
         {
             var courseCompletions = db.CourseCompletions.Include(c => c.Cours).Include(c => c.UserDetail);
@@ -25,8 +23,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: CourseCompletions/Details/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,8 +39,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: CourseCompletions/Create
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create()
         {
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName");
@@ -56,8 +52,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create([Bind(Include = "CourseCompletionID,UserID,CourseID,DateCompleted")] CourseCompletion courseCompletion)
         {
             if (ModelState.IsValid)
@@ -73,8 +68,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: CourseCompletions/Edit/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,8 +90,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit([Bind(Include = "CourseCompletionID,UserID,CourseID,DateCompleted")] CourseCompletion courseCompletion)
         {
             if (ModelState.IsValid)
@@ -112,8 +105,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: CourseCompletions/Delete/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -129,8 +121,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // POST: CourseCompletions/Delete/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

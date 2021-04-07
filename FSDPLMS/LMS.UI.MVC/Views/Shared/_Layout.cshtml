@@ -56,14 +56,18 @@
             
             <ul class="list-unstyled">
                 <li><a href="@Url.Action("Index","Home")"> Home </a></li>
-                <li><a href="@Url.Action("Index","Lessons")"> Lessons </a></li>
-                <li><a href="@Url.Action("Index","Cours")">Courses </a></li>
-                <li><a href="@Url.Action("Index","LessonViews")"> Lesson Viewed </a></li>
-                <li><a href="@Url.Action("Index","CourseCompletions")"> Course Completions </a></li>
-                <li><a href="@Url.Action("Index","RolesAdmin")"> Roles Admin </a></li>
-                <li><a href="@Url.Action("Index","UsersAdmin")"> Users Admin </a></li>
-                
-                
+                @if (User.IsInRole("HRAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
+                {
+                    <li><a href="@Url.Action("Index","Lessons")"> Lessons </a></li>
+                    <li><a href="@Url.Action("Index","Cours")">Courses </a></li>
+                    <li><a href="@Url.Action("Index","LessonViews")"> Lesson Viewed </a></li>
+                    <li><a href="@Url.Action("Index","CourseCompletions")"> Course Completions </a></li>
+                    <li><a href="@Url.Action("Index","RolesAdmin")"> Roles Admin </a></li>
+                    <li><a href="@Url.Action("Index","UsersAdmin")"> Users Admin </a></li>
+                }
+
+
+
             </ul>
             
         </nav>
@@ -78,8 +82,9 @@
             <footer class="footer">
                 <div class="footer__block block no-margin-bottom">
                     <div class="container-fluid text-center">
+                        <a href="~/Content/LMSDoc.pdf"class="btn btn-dark ">Project Documentation</a>
                         <!-- Please do not remove the backlink to us unless you support us at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                        <p class="no-margin-bottom">2020 &copy; Your company. Design by <a href="https://bootstrapious.com/p/bootstrap-4-dark-admin">Bootstrapious</a>.</p>
+                        <p class="no-margin-bottom">2021 &copy;Galaxy School. Design by <a href="https://bootstrapious.com/p/bootstrap-4-dark-admin">Bootstrapious</a>.</p>
                     </div>
                 </div>
             </footer>

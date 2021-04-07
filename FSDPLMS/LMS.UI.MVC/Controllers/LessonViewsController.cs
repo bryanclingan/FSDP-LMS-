@@ -15,9 +15,7 @@ namespace LMS.UI.MVC.Controllers
         private FSDPLMSEntities db = new FSDPLMSEntities();
 
         // GET: LessonViews
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Manager")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, Manager, HRAdmin")]
         public ActionResult Index()
         {
             var lessonViews = db.LessonViews.Include(l => l.Lesson).Include(l => l.UserDetail);
@@ -25,8 +23,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: LessonViews/Details/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,8 +39,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: LessonViews/Create
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create()
         {
             ViewBag.LessonID = new SelectList(db.Lessons, "LessonId", "LessonTitle");
@@ -56,8 +52,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create([Bind(Include = "LessonViewID,UserID,LessonID,DateViewed")] LessonView lessonView)
         {
             if (ModelState.IsValid)
@@ -73,8 +68,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: LessonViews/Edit/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,8 +90,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit([Bind(Include = "LessonViewID,UserID,LessonID,DateViewed")] LessonView lessonView)
         {
             if (ModelState.IsValid)
@@ -112,8 +105,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: LessonViews/Delete/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -131,8 +123,7 @@ namespace LMS.UI.MVC.Controllers
         // POST: LessonViews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult DeleteConfirmed(int id)
         {
             LessonView lessonView = db.LessonViews.Find(id);

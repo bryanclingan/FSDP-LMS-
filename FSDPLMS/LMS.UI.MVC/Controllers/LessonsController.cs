@@ -18,8 +18,7 @@ namespace LMS.UI.MVC.Controllers
         private FSDPLMSEntities db = new FSDPLMSEntities();
 
         // GET: Lessons
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Index()
         {
             var lessons = db.Lessons.Include(l => l.Cours);
@@ -27,10 +26,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Details/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Manager")]
-        [Authorize(Roles = "HRAdmin")]
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Admin, Manager, HRAdmin, Employee")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,7 +38,8 @@ namespace LMS.UI.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            var lessonViews = db.LessonViews.Where(x => x.LessonID == lesson.LessonId).FirstOrDefault();
+            string currentUser = User.Identity.GetUserId();
+            var lessonViews = db.LessonViews.Where(x => x.LessonID == lesson.LessonId&&x.UserID==currentUser).FirstOrDefault();
             if (lessonViews ==null)
             {
                 LessonView lsv = new LessonView();
@@ -57,8 +54,9 @@ namespace LMS.UI.MVC.Controllers
             
             
             var courseLessons = db.Lessons.Where(x => x.CourseID == lesson.CourseID).Count();
-            var completedLessons = db.LessonViews.Where(x => x.Lesson.CourseID == lesson.CourseID).Count();
-            if (completedLessons == courseLessons)
+            var completedLessons = db.LessonViews.Where(x => x.Lesson.CourseID == lesson.CourseID && x.UserID == currentUser).Count();
+            var completedCourses = db.CourseCompletions.Where(x => x.CourseID == lesson.CourseID && x.UserID == currentUser).FirstOrDefault();
+            if (completedLessons == courseLessons&&completedCourses ==null)
             {
                 CourseCompletion cc = new CourseCompletion();
                 cc.CourseID = lesson.CourseID;
@@ -81,7 +79,7 @@ namespace LMS.UI.MVC.Controllers
 
                 SmtpClient client = new SmtpClient("mail.bryandoescode.com");
 
-                client.Credentials = new NetworkCredential("webadmin@bryandoescode.com", "P@ssw0rd");
+                client.Credentials = new NetworkCredential("webadmin@bryandoescode.com", "");
 
                 client.Port = 587;
 
@@ -99,8 +97,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Create
-        [Authorize(Roles = "Admin")]        
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create()
         {
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName");
@@ -112,8 +109,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Create([Bind(Include = "LessonId,LessonTitle,CourseID,Introduction,VideoURL,PdfFileName,IsActive")] Lesson lesson,HttpPostedFileBase pdfFile)
         {
 
@@ -159,8 +155,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Edit/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -181,8 +176,7 @@ namespace LMS.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Edit([Bind(Include = "LessonId,LessonTitle,CourseID,Introduction,VideoURL,PdfFileName,IsActive")] Lesson lesson,HttpPostedFileBase pdfFile)
         {
             if (ModelState.IsValid)
@@ -228,8 +222,7 @@ namespace LMS.UI.MVC.Controllers
         }
 
         // GET: Lessons/Delete/5
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -247,8 +240,7 @@ namespace LMS.UI.MVC.Controllers
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "HRAdmin")]
+        [Authorize(Roles = "Admin, HRAdmin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Lesson lesson = db.Lessons.Find(id);
